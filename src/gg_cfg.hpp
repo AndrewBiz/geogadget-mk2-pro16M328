@@ -18,8 +18,9 @@ const uint16_t NOFIX_LOGGING_INTERVAL = 300; //sec. log to SD every 5 min in nof
 // if you use UBLOX power save mode the GG current flow can be less than 20mA - this makes some power banks to switch off
 // #define UBLOX_POWER_SAVE_MODE
 
-// const uint32_t GPS_UART_BAUDRATE_FAST = 57600UL;  // no-work for NeoICSerial ! baudrate btw GPS device and MCU
-const uint32_t GPS_UART_BAUDRATE_FAST = 19200UL;  // baudrate btw GPS device and MCU
+// const uint32_t GPS_UART_BAUDRATE_FAST = 57600UL;  // no-work for Serial ! baudrate btw GPS device and MCU
+const uint32_t GPS_UART_BAUDRATE_FAST = 38400UL;  // baudrate btw GPS device and MCU
+// const uint32_t GPS_UART_BAUDRATE_FAST = 19200UL;  // baudrate btw GPS device and MCU
 // const uint32_t GPS_UART_BAUDRATE_FAST = 9600UL;  // baudrate btw GPS device and MCU
 
 // Log file base name.  Must be six characters or less.
