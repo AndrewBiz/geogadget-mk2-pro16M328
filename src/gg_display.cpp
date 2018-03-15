@@ -5,7 +5,6 @@
 
 const uint8_t number_spin_steps = 8;
 const char spin_step[number_spin_steps] PROGMEM = {'|','/','-','\\','|','/','-','\\'};
-const char format_sta_sat[] PROGMEM = "ST %1d SAT: %02d(%02d)";
 
 
 // Definition section
@@ -29,6 +28,7 @@ void GG_Display::wakeup() {
   _display.setPowerSave(0); //deactivates power save on display
 };
 
+const char format_sta_sat[] PROGMEM = "ST %1d SAT: %02d(%02d)";
 //-----------------------------------------------------------------------------
 void GG_Display::_sta_sat(const NMEAGPS & gps, const gps_fix & fix) {
   char _buf[17];
@@ -75,7 +75,6 @@ void GG_Display::_hms(const NMEAGPS & gps, const gps_fix & fix) {
 
 //-----------------------------------------------------------------------------
 void GG_Display::show_init_screen(const NMEAGPS & gps, const gps_fix & fix) {
-  static uint32_t spin_phase_time = 0;
   static uint8_t spin_phase = 0;
 
   _display.setFont(u8x8_font_artossans8_r);
@@ -86,14 +85,9 @@ void GG_Display::show_init_screen(const NMEAGPS & gps, const gps_fix & fix) {
   _display.print(F("v " GG_VERSION));
 
   _display.setCursor(7, 2);
-  // _display.print(F("getting signal"));
-  // _display.setCursor(15, 2);
-  if (millis() - spin_phase_time > 100) {
-    // spin phases clockwise: "|/-\|/-\"
-    spin_phase_time = millis();
-    _display.print((char)pgm_read_byte(&(spin_step[spin_phase++])));
-    if (spin_phase >= number_spin_steps) spin_phase = 0;
-  }
+  // spin phases clockwise: "|/-\|/-\"
+  _display.print((char)pgm_read_byte(&(spin_step[spin_phase++])));
+  if (spin_phase >= number_spin_steps) spin_phase = 0;
 
   _display.setCursor(0, 4);
   _sta_sat(gps, fix);
@@ -104,6 +98,15 @@ void GG_Display::show_init_screen(const NMEAGPS & gps, const gps_fix & fix) {
   _display.setCursor(0, 6);
   _hms(gps, fix);
   _display.setInverseFont(0);
+
+  _display.setCursor(0, 7);
+  if (!fix.valid.location) {
+    _display.setInverseFont(1);
+    _display.print(F("Location:  NOK  "));
+    _display.setInverseFont(0);
+  } else {
+    _display.print(F("Location:  OK   "));
+  }
 }
 
 //-----------------------------------------------------------------------------
@@ -123,7 +126,7 @@ void GG_Display::show_main_screen(const NMEAGPS & gps, const gps_fix & fix, char
   _display.setInverseFont(0);
 
   _display.setCursor(0, 3);
-  if (!fix.valid.location || fix.status == gps_fix::STATUS_NONE)
+  if (!fix.valid.location || fix.status < gps_fix::STATUS_STD)
     _display.setInverseFont(1);
   _display.print(F("LAT: "));
   _display.print(format_location(_buf, fix.latitudeL()));

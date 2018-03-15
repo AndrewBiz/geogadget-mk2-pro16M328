@@ -9,10 +9,10 @@
 
 class GPS : public ubloxGPS {
 public:
-  enum {
-    GETTING_SIGNAL,
-    RUNNING
-  } state NEOGPS_BF(8);
+  // enum {
+  //   GETTING_SIGNAL,
+  //   RUNNING
+  // } state NEOGPS_BF(8);
 
   GPS(Stream*);
 
@@ -22,11 +22,11 @@ public:
   void go_power_max(void);
 
   void start_running(void);
-  bool running(void);
+  // bool running(void);
 
 
 private:
-  void get_signal(void);
+  // void get_signal(void);
   void write_P_simple(const unsigned char* progmem_msg, size_t len);
 
 } NEOGPS_PACKED;

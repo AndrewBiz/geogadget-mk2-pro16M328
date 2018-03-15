@@ -51,14 +51,19 @@ void setup() {
   gpsPort.begin(GPS_UART_BAUDRATE_FAST);
 
   gps.start_running();
-  bool running = false;
+
+  uint32_t ts = 0;
+  uint32_t ts_show = 0;
   do {
     if (gps.available(gpsPort)) {
       fix = gps.read();
-      running = gps.running();
     }
-    display.show_init_screen(gps, fix);
-  } while (not running);
+    ts = millis();
+    if (ts - ts_show > 150) {
+      display.show_init_screen(gps, fix);
+      ts_show = ts;
+    }
+  } while (fix.status < gps_fix::STATUS_STD);
 
   // SD card initializing
   setup_sd(gps, fix, error);

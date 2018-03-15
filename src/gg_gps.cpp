@@ -159,7 +159,7 @@ const unsigned char ubx_cfg_tp5_power_max[] PROGMEM = {
 
 //--------------------------
 GPS::GPS(Stream* device) : ubloxGPS(device) {
-  state = GETTING_SIGNAL;
+  // state = GETTING_SIGNAL;
 }
 
 //--------------------------
@@ -239,31 +239,31 @@ void GPS::start_running() {
     }
   #endif
 
-  state = GETTING_SIGNAL;
+  // state = GETTING_SIGNAL;
 } // start_running
 
 //--------------------------
-void GPS::get_signal() {
-  lock();
-  bool              safe    = is_safe();
-  NeoGPS::clock_t   sow     = GPSTime::start_of_week();
-  gps_fix::status_t status  = fix().status;
-  unlock();
-
-  if (safe && (sow != 0) && (status >= gps_fix::STATUS_STD)) {
-    // go to running state
-    state = RUNNING;
-  }
-} // get_signal
+// void GPS::get_signal() {
+//   lock();
+//   bool              safe    = is_safe();
+//   NeoGPS::clock_t   sow     = GPSTime::start_of_week();
+//   gps_fix::status_t status  = fix().status;
+//   unlock();
+//
+//   if (safe && (sow != 0) && (status >= gps_fix::STATUS_STD)) {
+//     // go to running state
+//     state = RUNNING;
+//   }
+// } // get_signal
 
 
 //--------------------------
-bool GPS::running() {
-  switch (state) {
-    case GETTING_SIGNAL : get_signal(); break;
-  }
-  return (state == RUNNING);
-} // running
+// bool GPS::running() {
+//   switch (state) {
+//     case GETTING_SIGNAL : get_signal(); break;
+//   }
+//   return (state == RUNNING);
+// } // running
 
 
 //--------------------------
