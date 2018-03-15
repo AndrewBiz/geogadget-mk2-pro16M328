@@ -19,3 +19,4 @@ wake_up takes 14us (71 times faster than PWR_DOWN sleep mode!)
 |FLASH |RAM  |Comment                      |
 |------------------------------------------|
 |27620 |1504 | initial build (mod v1.00)
+|27608 |1499 | refactored, cleaned v2.03.02
