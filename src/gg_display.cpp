@@ -81,7 +81,7 @@ void GG_Display::show_init_screen(const NMEAGPS & gps, const gps_fix & fix) {
   _display.setFont(u8x8_font_artossans8_r);
 
   _display.setCursor(1, 0);
-  _display.print(F("Geo-Gadget mkII"));
+  _display.print(F(GG_NAME));
   _display.setCursor(3, 1);
   _display.print(F("v " GG_VERSION));
 
