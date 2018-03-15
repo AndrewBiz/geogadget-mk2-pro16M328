@@ -8,7 +8,7 @@ class GG_Display;
 
 // error wordings:
 
-char const str_error_0[] PROGMEM = "SD card INIT";
+char const str_error_0[] PROGMEM = "  SD card INIT";
 char const str_error_1[] PROGMEM = "SD - CHDIR: root";
 char const str_error_2[] PROGMEM = "SD - MKDIR: work";
 char const str_error_3[] PROGMEM = "SD - CHDIR: work";
