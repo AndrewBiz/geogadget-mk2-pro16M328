@@ -147,7 +147,7 @@ void create_file(
   }
   gg_file.print(F(
     "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-    "<gpx version=\"1.1\" creator=\"Geo-Gadget v" GG_VERSION " (" GG_ORIGIN ")\">\n"
+    "<gpx version=\"1.1\" creator=\"" GG_NAME " v" GG_VERSION " (" GG_ORIGIN ")\">\n"
     "\t<trk><trkseg>\n"));
   gg_file.print(F(GPX_ENDING));
 }
