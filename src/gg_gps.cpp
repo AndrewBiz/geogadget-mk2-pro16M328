@@ -192,7 +192,7 @@ void GPS::start_running() {
   go_power_max();
 
   // set 1Hz rate (1000ms)
-  if (!set_rate(1000)) {
+  if (!set_rate(FAST_RATE)) {
     // D(DEBUG_PORT.println(F("set rate FAILED!"));)
   }
 
@@ -239,32 +239,7 @@ void GPS::start_running() {
     }
   #endif
 
-  // state = GETTING_SIGNAL;
 } // start_running
-
-//--------------------------
-// void GPS::get_signal() {
-//   lock();
-//   bool              safe    = is_safe();
-//   NeoGPS::clock_t   sow     = GPSTime::start_of_week();
-//   gps_fix::status_t status  = fix().status;
-//   unlock();
-//
-//   if (safe && (sow != 0) && (status >= gps_fix::STATUS_STD)) {
-//     // go to running state
-//     state = RUNNING;
-//   }
-// } // get_signal
-
-
-//--------------------------
-// bool GPS::running() {
-//   switch (state) {
-//     case GETTING_SIGNAL : get_signal(); break;
-//   }
-//   return (state == RUNNING);
-// } // running
-
 
 //--------------------------
 void GPS::write_P_simple(const unsigned char* progmem_msg, size_t len){
