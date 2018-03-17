@@ -23,6 +23,7 @@ public:
 private:
   U8X8_SSD1306_128X64_NONAME_HW_I2C _display;
 
+  uint8_t _satellites_ok(const NMEAGPS & gps);
   void _sta_sat(const NMEAGPS & gps, const gps_fix & fix);
   void _ymd(const NMEAGPS & gps, const gps_fix & fix);
   void _hms(const NMEAGPS & gps, const gps_fix & fix);

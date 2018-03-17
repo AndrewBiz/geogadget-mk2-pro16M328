@@ -28,20 +28,24 @@ void GG_Display::wakeup() {
   _display.setPowerSave(0); //deactivates power save on display
 };
 
-const char format_sta_sat[] PROGMEM = "ST %1d SAT: %02d(%02d)";
 //-----------------------------------------------------------------------------
-void GG_Display::_sta_sat(const NMEAGPS & gps, const gps_fix & fix) {
-  char _buf[17];
+uint8_t GG_Display::_satellites_ok(const NMEAGPS & gps) {
   uint8_t sats_ok = 0;
-
   for (uint8_t i=0; i < gps.sat_count; i++) {
     if ((gps.satellites[i].tracked) && (gps.satellites[i].snr > SAT_GOOD_SNR)) {
       sats_ok++;
     }
   }
+  return sats_ok;
+};
+
+const char format_sta_sat[] PROGMEM = "ST %1d SAT: %02d(%02d)";
+//-----------------------------------------------------------------------------
+void GG_Display::_sta_sat(const NMEAGPS & gps, const gps_fix & fix) {
+  char _buf[17];
   sprintf_P(_buf, format_sta_sat,
     fix.status,
-    sats_ok,
+    _satellites_ok(gps),
     fix.satellites
   );
   _display.print(_buf);
@@ -73,40 +77,50 @@ void GG_Display::_hms(const NMEAGPS & gps, const gps_fix & fix) {
   );
 }
 
+const char format_sat_found[] PROGMEM = "GOOD:%02d TOTAL:%02d";  // "GOOD:02 TOTAL:12"
 //-----------------------------------------------------------------------------
 void GG_Display::show_init_screen(const NMEAGPS & gps, const gps_fix & fix) {
+  char _buf[17];
   static uint8_t spin_phase = 0;
 
   _display.setFont(u8x8_font_artossans8_r);
 
   _display.setCursor(1, 0);
   _display.print(F(GG_NAME));
-  _display.setCursor(3, 1);
-  _display.print(F("v " GG_VERSION));
+  _display.setCursor(4, 1);
+  _display.print(F("v" GG_VERSION));
 
-  _display.setCursor(7, 2);
+  _display.setCursor(3, 2);
+  _display.print(F("Satellites:"));
+  _display.setCursor(1, 2);
   // spin phases clockwise: "|/-\|/-\"
   _display.print((char)pgm_read_byte(&(spin_step[spin_phase++])));
   if (spin_phase >= number_spin_steps) spin_phase = 0;
 
-  _display.setCursor(0, 4);
-  _sta_sat(gps, fix);
+  _display.setCursor(0, 3);
+  sprintf_P(_buf, format_sat_found,
+    _satellites_ok(gps),
+    fix.satellites
+  );
+  _display.print(_buf);
 
   if ((!fix.valid.time) || (!fix.valid.date)) _display.setInverseFont(1);
-  _display.setCursor(0, 5);
+  _display.setCursor(0, 4);
   _ymd(gps, fix);
-  _display.setCursor(0, 6);
+  _display.setCursor(0, 5);
   _hms(gps, fix);
   _display.setInverseFont(0);
 
-  _display.setCursor(0, 7);
-  if (!fix.valid.location) {
+  _display.setCursor(0, 6);
+  if (!fix.valid.location || fix.status < gps_fix::STATUS_STD)
     _display.setInverseFont(1);
-    _display.print(F("Location:  NOK  "));
-    _display.setInverseFont(0);
-  } else {
-    _display.print(F("Location:  OK   "));
-  }
+  _display.print(F("LAT: "));
+  _display.print(format_location(_buf, fix.latitudeL()));
+
+  _display.setCursor(0, 7);
+  _display.print(F("LON: "));
+  _display.print(format_location(_buf, fix.longitudeL()));
+  _display.setInverseFont(0);
 }
 
 //-----------------------------------------------------------------------------
