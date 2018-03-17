@@ -2,7 +2,7 @@
 #include <Arduino.h>
 
 const char format_date_solid[] PROGMEM = "%04d%02d%02d";
-const char format_date_dash[] PROGMEM =  "%04d-%02d-%02d";
+const char format_date_dash[] PROGMEM =  "%04d-%02d-%02d ";
 
 //--------------------------
 char* format_date(char* buf, char ftype, uint16_t year, uint8_t month, uint8_t date) {
@@ -20,7 +20,7 @@ char* format_date(char* buf, char ftype, uint16_t year, uint8_t month, uint8_t d
 }
 
 const char format_time_solid[] PROGMEM = "%02d%02d%02d";
-const char format_time_colon[] PROGMEM = "%02d:%02d:%02d";
+const char format_time_colon[] PROGMEM = "%02d:%02d:%02d   ";
 
 //--------------------------
 char* format_time(char* buf, char ftype, uint8_t hours, uint8_t minutes, uint8_t seconds) {
