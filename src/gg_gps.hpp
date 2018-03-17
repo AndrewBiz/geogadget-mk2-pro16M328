@@ -9,11 +9,6 @@
 
 class GPS : public ubloxGPS {
 public:
-  // enum {
-  //   GETTING_SIGNAL,
-  //   RUNNING
-  // } state NEOGPS_BF(8);
-
   GPS(Stream*);
 
   void set_fast_baudrate(void);
