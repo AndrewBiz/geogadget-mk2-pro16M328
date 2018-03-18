@@ -62,6 +62,7 @@ void GG_Display::_ymd(const NMEAGPS & gps, const gps_fix & fix) {
       fix.dateTime.date
     )
   );
+  _display.print(F(" "));
 }
 
 //-----------------------------------------------------------------------------
@@ -75,6 +76,7 @@ void GG_Display::_hms(const NMEAGPS & gps, const gps_fix & fix) {
       fix.dateTime.seconds
     )
   );
+  _display.print(F("   "));
 }
 
 const char format_sat_found[] PROGMEM = "GOOD:%02d TOTAL:%02d";  // "GOOD:02 TOTAL:12"

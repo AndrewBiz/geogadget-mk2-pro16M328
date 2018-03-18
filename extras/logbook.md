@@ -2,21 +2,19 @@
 
 ## Power save modes
 ### MAX Power
-device current: 77mA-94mA
+device current: 77mA-100mA (~90mA)
 
 ### SLEEP_MODE_PWR_DOWN
 wake_up takes 1000us
 
-### SLEEP_MODE_STANDBY
-wake_up takes 14us (71 times faster than PWR_DOWN sleep mode!)
-
 #### device current:
-  good signal: 56mA - 35mA (some times) (with external antenna = 9mA)
-  bad signal:  65mA - 23mA
+  external antenna eats 9mA
+  good signal: 55mA - 77mA (with antenna)
+  bad signal:  46mA - 63mA (without antenna)
 
 ## Memory use
-
 |FLASH |RAM  |Comment                      |
 |------------------------------------------|
 |27620 |1504 | initial build (mod v1.00)
-|27608 |1499 | refactored, cleaned v2.03.02
+|27608 |1499 | re-factored, cleaned v2.03.02|
+|27794 |1500 | re-factored, v2.07.04
