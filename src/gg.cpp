@@ -37,6 +37,7 @@ void setup() {
   // DEBUG_PORT.begin(9600);
 
   display.init();
+  display.show_1st_screen();
 
   // GPS device initializing
   pinMode(PIN_GPS_PPS, INPUT_PULLUP);

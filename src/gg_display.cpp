@@ -11,7 +11,16 @@ const char spin_step[number_spin_steps] PROGMEM = {'|','/','-','\\','|','/','-',
 //-----------------------------------------------------------------------------
 void GG_Display::init() {
   _display.begin();
+  _display.setFont(u8x8_font_artossans8_r);
 };
+
+//-----------------------------------------------------------------------------
+void GG_Display::show_1st_screen(void) {
+  _display.setCursor(1, 3);
+  _display.print(F(GG_NAME));
+  _display.setCursor(4, 4);
+  _display.print(F("v" GG_VERSION));
+}
 
 //-----------------------------------------------------------------------------
 void GG_Display::clear() {
@@ -85,7 +94,7 @@ void GG_Display::show_init_screen(const NMEAGPS & gps, const gps_fix & fix) {
   char _buf[17];
   static uint8_t spin_phase = 0;
 
-  _display.setFont(u8x8_font_artossans8_r);
+  // _display.setFont(u8x8_font_artossans8_r);
 
   _display.setCursor(1, 0);
   _display.print(F(GG_NAME));
@@ -129,7 +138,7 @@ void GG_Display::show_init_screen(const NMEAGPS & gps, const gps_fix & fix) {
 void GG_Display::show_main_screen(const NMEAGPS & gps, const gps_fix & fix, char* gg_file_name) {
   char _buf[17];
 
-  _display.setFont(u8x8_font_artossans8_r);
+  // _display.setFont(u8x8_font_artossans8_r);
 
   _display.setCursor(0, 0);
   _sta_sat(gps, fix);
@@ -180,7 +189,7 @@ void GG_Display::show_main_screen(const NMEAGPS & gps, const gps_fix & fix, char
 void GG_Display::show_error_screen(const uint8_t error_type, PGM_P error_str) {
   char _buf[17];
   _display.clear();
-  _display.setFont(u8x8_font_artossans8_r);
+  // _display.setFont(u8x8_font_artossans8_r);
   _display.setCursor(4, 2);
   _display.print(F("ERROR ("));
   _display.print(error_type);

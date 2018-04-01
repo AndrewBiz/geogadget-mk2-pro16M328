@@ -16,6 +16,7 @@ public:
   void sleep();
   void wakeup();
 
+  void show_1st_screen(void);
   void show_init_screen(const NMEAGPS & gps, const gps_fix & fix);
   void show_main_screen(const NMEAGPS & gps, const gps_fix & fix, char* gg_file_name);
   void show_error_screen(const uint8_t error_type, PGM_P error_str);
