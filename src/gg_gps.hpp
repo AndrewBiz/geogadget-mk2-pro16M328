@@ -21,7 +21,7 @@ public:
 
 
 private:
-  // void get_signal(void);
+  void go_power_max_init(void);
   void write_P_simple(const unsigned char* progmem_msg, size_t len);
 
 } NEOGPS_PACKED;

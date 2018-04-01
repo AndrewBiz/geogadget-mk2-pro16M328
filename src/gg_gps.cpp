@@ -87,6 +87,7 @@ const unsigned char ubx_cfg_rxm_power_max[] PROGMEM = {
 #else
   const uint32_t GPS_PULSE_NOFIX_PERIOD = 10000000; // us, 10 sec (for normal power mode)
 #endif
+const uint32_t GPS_PULSE_NOFIX_PERIOD_INIT = 500000; // us, 0,5 sec for init phase
 const uint32_t GPS_PULSE_FIX_PERIOD_NORMAL = (uint32_t)NORMAL_RATE * 1000; // us, 5 sec
 const uint32_t GPS_PULSE_FIX_PERIOD_FAST = (uint32_t)FAST_RATE * 1000; // us, 1 sec
 const uint32_t GPS_PULSE_NOFIX_LEN = 1000; // us, 0.001 sec
@@ -155,6 +156,38 @@ const unsigned char ubx_cfg_tp5_power_max[] PROGMEM = {
   0x00, 0x00, 0x00, 0x00, // userConfigDelay
   0x37, 0x00, 0x00, 0x00  // flags = 0x37 = 0011 0111
 };
+
+const unsigned char ubx_cfg_tp5_power_max_init[] PROGMEM = {
+  0x06, 0x31,   // ID CFG-TP5
+  0x20, 0x00,   // len = 32b
+  0x00,         // tpIdx 0 = TIMEPULSE
+  0x01,         // r1
+  0x00, 0x00,   // r2
+  0x32, 0x00,   // antCableDelay 0x0032 = 50ns
+  0x00, 0x00,   // rfGroupDelay
+  // freqPeriod 
+  (uint8_t) GPS_PULSE_NOFIX_PERIOD_INIT,  // low byte
+    (uint8_t) (GPS_PULSE_NOFIX_PERIOD_INIT >> 8),
+      (uint8_t) (GPS_PULSE_NOFIX_PERIOD_INIT >> 16),
+        (uint8_t) (GPS_PULSE_NOFIX_PERIOD_INIT >> 24),
+  // freqPeriodLock = 0x004C4B40 = 5000000 us
+  (uint8_t) GPS_PULSE_FIX_PERIOD_FAST,  // low byte
+    (uint8_t) (GPS_PULSE_FIX_PERIOD_FAST >> 8),
+      (uint8_t) (GPS_PULSE_FIX_PERIOD_FAST >> 16),
+        (uint8_t) (GPS_PULSE_FIX_PERIOD_FAST >> 24),
+  // pulseLenRatio = 0x000186A0 = 100000 us
+  (uint8_t) GPS_PULSE_NOFIX_LEN,  // low byte
+    (uint8_t) (GPS_PULSE_NOFIX_LEN >> 8),
+      (uint8_t) (GPS_PULSE_NOFIX_LEN >> 16),
+        (uint8_t) (GPS_PULSE_NOFIX_LEN >> 24),
+  // pulseLenRatioLock = 0x03E8 = 1000 us
+  (uint8_t) GPS_PULSE_FIX_LEN,  // low byte
+    (uint8_t) (GPS_PULSE_FIX_LEN >> 8),
+      (uint8_t) (GPS_PULSE_FIX_LEN >> 16),
+        (uint8_t) (GPS_PULSE_FIX_LEN >> 24),
+  0x00, 0x00, 0x00, 0x00, // userConfigDelay
+  0x37, 0x00, 0x00, 0x00  // flags = 0x37 = 0011 0111
+};
 // END OF: UBLOX device constants section
 
 //--------------------------
@@ -182,6 +215,12 @@ void GPS::go_power_save() {
 }
 
 //--------------------------
+void GPS::go_power_max_init() {
+  write_P_simple(ubx_cfg_rxm_power_max, sizeof(ubx_cfg_rxm_power_max));
+  write_P_simple(ubx_cfg_tp5_power_max_init, sizeof(ubx_cfg_tp5_power_max_init));
+}
+
+//--------------------------
 void GPS::go_power_max() {
   write_P_simple(ubx_cfg_rxm_power_max, sizeof(ubx_cfg_rxm_power_max));
   write_P_simple(ubx_cfg_tp5_power_max, sizeof(ubx_cfg_tp5_power_max));
@@ -189,7 +228,7 @@ void GPS::go_power_max() {
 
 //--------------------------
 void GPS::start_running() {
-  go_power_max();
+  go_power_max_init();
 
   // set 1Hz rate (1000ms)
   if (!set_rate(FAST_RATE)) {
