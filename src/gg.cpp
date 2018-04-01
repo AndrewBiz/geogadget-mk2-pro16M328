@@ -52,18 +52,11 @@ void setup() {
 
   gps.start_running();
 
-  // uint32_t ts = 0;
-  // uint32_t ts_show = 0;
   do {
     if (gps.available(gpsPort)) {
       fix = gps.read();
       display.show_init_screen(gps, fix);
     }
-    // ts = millis();
-    // if (ts - ts_show > 150) {
-    //   display.show_init_screen(gps, fix);
-    //   ts_show = ts;
-    // }
   } while (fix.status < gps_fix::STATUS_STD);
 
   // SD card initializing
