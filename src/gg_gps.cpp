@@ -176,10 +176,10 @@ const unsigned char ubx_cfg_tp5_power_max_init[] PROGMEM = {
       (uint8_t) (GPS_PULSE_FIX_PERIOD_FAST >> 16),
         (uint8_t) (GPS_PULSE_FIX_PERIOD_FAST >> 24),
   // pulseLenRatio = 0x000186A0 = 100000 us
-  (uint8_t) GPS_PULSE_NOFIX_LEN,  // low byte
-    (uint8_t) (GPS_PULSE_NOFIX_LEN >> 8),
-      (uint8_t) (GPS_PULSE_NOFIX_LEN >> 16),
-        (uint8_t) (GPS_PULSE_NOFIX_LEN >> 24),
+  (uint8_t) GPS_PULSE_NOFIX_LEN*10,  // low byte
+    (uint8_t) (GPS_PULSE_NOFIX_LEN*10 >> 8),
+      (uint8_t) (GPS_PULSE_NOFIX_LEN*10 >> 16),
+        (uint8_t) (GPS_PULSE_NOFIX_LEN*10 >> 24),
   // pulseLenRatioLock = 0x03E8 = 1000 us
   (uint8_t) GPS_PULSE_FIX_LEN,  // low byte
     (uint8_t) (GPS_PULSE_FIX_LEN >> 8),
