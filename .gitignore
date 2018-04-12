@@ -8,4 +8,5 @@
 .vscode/settings.json
 .vscode/*.db
 .vscode/.browse.c_cpp.db*
+.vscode/
 extras/logs
